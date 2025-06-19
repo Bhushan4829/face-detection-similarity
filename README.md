@@ -71,16 +71,16 @@ face-detection-similarity/
 - pip package manager
 
 ### Step 1: Install Dependencies
-```bash
+```
 pip install -r requirements.txt
 ``` 
 ### Step 2: Download Required Models
-```bash python download_models.py ```
+``` python download_models.py ```
 ### Step 3: Create Face Database
-```bash python database.py ```
+``` python database.py ```
 Note: This process may take several minutes as it processes 1,000 faces and creates the search index.
 ### Step 4: Start the Server
-```bash python main.py ```
+``` python main.py ```
 ### Step 5: Access Web Interface
 Open your browser and navigate to:
 ``` http://localhost:8000 ```
