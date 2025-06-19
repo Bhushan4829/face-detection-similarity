@@ -75,15 +75,23 @@ face-detection-similarity/
 pip install -r requirements.txt
 ``` 
 ### Step 2: Download Required Models
-``` python download_models.py ```
+``` 
+python download_models.py
+```
 ### Step 3: Create Face Database
-``` python database.py ```
+``` 
+python database.py
+```
 Note: This process may take several minutes as it processes 1,000 faces and creates the search index.
 ### Step 4: Start the Server
-``` python main.py ```
+``` 
+python main.py
+```
 ### Step 5: Access Web Interface
 Open your browser and navigate to:
-``` http://localhost:8000 ```
+``` 
+http://localhost:8000
+```
 
 📋 Requirements
 ```
@@ -99,12 +107,13 @@ python-multipart>=0.0.5
 ```
 🚀 API Usage
 Single Image Search
-``` curl -X POST "http://localhost:8000/search" \
+```
+curl -X POST "http://localhost:8000/search" \
      -H "accept: application/json" \
      -H "Content-Type: multipart/form-data" \
      -F "file=@your_image.jpg"
 Batch Search
-``` curl -X POST "http://localhost:8000/search_batch" \
+curl -X POST "http://localhost:8000/search_batch" \
      -H "accept: application/json" \
      -H "Content-Type: multipart/form-data" \
      -F "files=@image1.jpg" \
