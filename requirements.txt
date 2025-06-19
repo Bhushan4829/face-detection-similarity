@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+face-recognition
+pandas
+numpy
+faiss-cpu
+scikit-learn
+opencv-python-headless
+requests
+python-multipart
