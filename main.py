@@ -19,8 +19,7 @@ print("Index type:", type(db["index"]))
 
 if isinstance(db["index"], faiss.IndexIVF):
     db["index"].nprobe = db["config"].get("nprobe", 5)
-# ──────────── Utility Functions ────────────
-
+# Utility Functions
 def calculate_box_similarity(b1: Dict[str,int], b2: Dict[str,int]) -> float:
     if not b1 or not b2:
         return 0.0
@@ -100,7 +99,7 @@ async def process_upload(file: UploadFile) -> Dict[str,Any]:
         res["error"] = str(e)
         return res
 
-# ──────────── API Endpoints ────────────
+# API Endpoints
 
 @app.post("/search")
 async def search_single(file: UploadFile = File(...)):
@@ -119,7 +118,7 @@ async def search_batch(files: List[UploadFile] = File(...)):
 def health():
     return {"status": "healthy", "loaded": len(db["filenames"])}
 
-# ─── MOUNT STATIC ───
+# MOUNT STATIC FILES
 # 1) Serve the actual image files
 app.mount("/images",
           StaticFiles(directory="enhanced_faces_dataset"),
@@ -131,7 +130,7 @@ app.mount("/",
           name="static")
 
 
-# ──────────── Run with Uvicorn ────────────
+# Run with Uvicorn 
 
 if __name__ == "__main__":
     import uvicorn

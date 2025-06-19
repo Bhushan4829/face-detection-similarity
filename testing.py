@@ -1,149 +1,16 @@
-# # testing.py
-# import requests
-# import time
-# import cv2
-# import face_recognition
-
-# SERVER_URL = "http://localhost:8000/search"
-# TEST_IMAGE = r"enhanced_faces_dataset\0.jpg"
-
-# def verify_test_image():
-#     print("\nVerifying test image...")
-#     img = cv2.imread(TEST_IMAGE)
-#     if img is None:
-#         print("ERROR: Could not read image file")
-#         return
-#     print(f"Image loaded (shape: {img.shape})")
-#     rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-#     locs = face_recognition.face_locations(rgb)
-#     print(f"Detected {len(locs)} face(s)")
-#     if not locs:
-#         print("WARNING: No faces detected!")
-
-# def send_request():
-#     try:
-#         with open(TEST_IMAGE, 'rb') as f:
-#             r = requests.post(
-#                 SERVER_URL,
-#                 files={'file': (TEST_IMAGE, f, 'image/jpeg')},
-#                 timeout=10
-#             )
-#         latency = r.elapsed.total_seconds()
-#         # Try JSON, else raw text
-#         try:
-#             data = r.json()
-#         except ValueError:
-#             data = r.text
-#         return {
-#             "status": r.status_code,
-#             "success": r.status_code == 200,
-#             "latency": latency,
-#             "data": data
-#         }
-#     except Exception as e:
-#         return {"status": None, "success": False, "error": str(e)}
-
-# def run_tests():
-#     verify_test_image()
-#     print("\nRunning single test request...")
-#     res = send_request()
-#     if res["success"]:
-#         print("✅ Success:")
-#         print(res["data"])
-#         print(f"Latency: {res['latency']:.3f}s")
-#     else:
-#         print("❌ Test failed!")
-#         if res.get("error"):
-#             print("Error:", res["error"])
-#         else:
-#             print("Status code:", res["status"])
-#             print("Response body:", res["data"])
-
-# if __name__ == "__main__":
-#     run_tests()
-
-
-# import requests
-# import cv2
-# import time
-# from concurrent.futures import ThreadPoolExecutor
-# import matplotlib.pyplot as plt
-
-# # Configuration
-# SERVER_URL = "http://localhost:8000/search"
-# TEST_IMAGE = "enhanced_faces_dataset/1.jpg"
-# DATASET_PATH = "enhanced_faces_dataset"
-
-# # 1. Single request and display query + top-5 matches
-# response = requests.post(
-#     SERVER_URL,
-#     files={'file': (TEST_IMAGE, open(TEST_IMAGE, 'rb'), 'image/jpeg')}
-# )
-# response.raise_for_status()
-# data = response.json()
-
-# # Load and prepare images
-# query_img = cv2.cvtColor(cv2.imread(TEST_IMAGE), cv2.COLOR_BGR2RGB)
-# matches = []
-# for match in data['results']:
-#     img_path = f"{DATASET_PATH}/{match['filename']}"
-#     img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
-#     matches.append((img, match['similarity']))
-
-# # Plot query + matches
-# fig, axes = plt.subplots(1, 6, figsize=(15, 5))
-# axes[0].imshow(query_img)
-# axes[0].set_title("Query")
-# axes[0].axis('off')
-
-# for i, (img, sim) in enumerate(matches):
-#     axes[i+1].imshow(img)
-#     axes[i+1].set_title(f"{sim:.2f}")
-#     axes[i+1].axis('off')
-
-# plt.show()
-
-# # 2. Throughput test: 20 requests per second, record latencies
-# latencies = []
-# def send_request():
-#     start = time.time()
-#     with open(TEST_IMAGE, 'rb') as f:
-#         r = requests.post(
-#             SERVER_URL,
-#             files={'file': (TEST_IMAGE, f, 'image/jpeg')}
-#         )
-#     latencies.append((time.time() - start) * 1000)
-
-# # Schedule 100 requests at ~20 RPS
-# with ThreadPoolExecutor(max_workers=20) as executor:
-#     for _ in range(100):
-#         executor.submit(send_request)
-#         time.sleep(1/20)
-
-# # Print average latency
-# avg_latency = sum(latencies) / len(latencies)
-# print(f"Average latency @20 RPS: {avg_latency:.2f} ms over {len(latencies)} requests")
-
-# # 3. Plot latency distribution
-# plt.figure(figsize=(8, 4))
-# plt.hist(latencies, bins=20)
-# plt.xlabel("Latency (ms)")
-# plt.ylabel("Count")
-# plt.title("Latency Distribution @20 RPS")
-# plt.show()
 import glob
 import os
 import time
 import requests
 import cv2
 import matplotlib.pyplot as plt
-import numpy as np              # ← for isinstance check
+import numpy as np
 
-# ── CONFIG ───────────────────────────────────────────────────
+# CONFIG 
 SERVER_URL = "http://localhost:8000/search_batch"
 IMAGE_DIR  = "enhanced_faces_dataset"
 MAX_IMAGES = 30
-# ─────────────────────────────────────────────────────────────
+
 
 def main():
     # 1) pick up to MAX_IMAGES files
