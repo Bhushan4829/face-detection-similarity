@@ -1,5 +1,4 @@
-Yes, I understand you want the raw markdown code. Here it is:
-markdown# Face Detection Similarity
+# Face Detection Similarity
 
 A high-performance face similarity search system that processes 20+ requests per second on CPU-only hardware with sub-2-second latency.
 
@@ -8,7 +7,7 @@ A high-performance face similarity search system that processes 20+ requests per
 - **High Performance**: Process 20+ requests per second on CPU-only hardware
 - **Multi-Input Support**: Handle both image and video inputs
 - **Fast Similarity Search**: Return top 5 most similar faces from 1,000+ face database
-- **Low Latency**: Maintains sub-2-second response time per request
+- **Low Latency**: Maintains sub-2-second response time per request of image
 - **Web Interface**: User-friendly web UI for easy interaction
 - **Batch Processing**: Support for processing multiple queries simultaneously
 
