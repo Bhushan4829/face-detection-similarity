@@ -1,27 +1,3 @@
-# prepare_database.py
-# import pandas as pd
-# import numpy as np
-# import pickle
-
-# # Load the CSV with face encodings
-# df = pd.read_csv('face_features.csv')
-
-# # Convert string representations back to numpy arrays
-# df['face_encoding'] = df['face_encoding'].apply(lambda x: np.array(eval(x)))
-
-# # Create optimized data structure
-# face_data = {
-#     'filenames': df['filename'].tolist(),
-#     'encodings': np.array(df['face_encoding'].tolist())
-# }
-
-# # Save for production
-# with open('face_db.pkl', 'wb') as f:
-#     pickle.dump(face_data, f, protocol=4)
-
-# prepare_database.py
-# prepare_database.py
-# database.py
 import pandas as pd
 import numpy as np
 import pickle
